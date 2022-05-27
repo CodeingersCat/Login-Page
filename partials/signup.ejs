@@ -1,0 +1,11 @@
+<p class="signup">SignUp</p>
+<form action="signup" class="sign-up" method="post">
+    <label for="username">Enter username</label>
+    <%- `<input type="text" id="username" name="username_field" placeholder="Enter Username" value=${username}>` %>
+    <label for="password">Enter password</label>
+    <input type="password" id="password" name="password_field" placeholder="Enter password" required minlength="8" pattern="(^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$)" title="Must be alphanumeric">
+    <label for="confirm-password">Confirm password</label>
+    <input type="password" id="confirm-password" name="repassword_field" placeholder="Confirm password" required> 
+    <p id="error-msg"><%= errors  %> </p>
+    <input type="submit" id="submit" value="Sign Up">
+</form>

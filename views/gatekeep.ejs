@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs")  %>
+<body>
+    <div class="container-main">
+        <%- include("../partials/nav.ejs")  %>
+        <h2><%= title %></h2>
+        <% if (title === "Log In") { %>
+            <%- include("../partials/login.ejs")  %>
+        <% } %>
+        <% if(title === "Sign Up") { %>
+            <%- include("../partials/signup.ejs")  %>
+        <% } %>
+        <%- include("../partials/footer.ejs")  %>
+    </div>
+</body>
+<script>
+    var pw = document.getElementById('password')
+    var cpw = document.getElementById('confirm-password')
+    var submit = document.getElementById('submit')
+    var error = document.getElementById('error-msg')
+    var username = document.getElementById('username')
+
+    username.required = true
+
+    cpw && cpw.addEventListener("change", () => {
+        if(pw.value !== cpw.value){
+            submit.disabled = true
+            error.innerText = "Passwords do not match"
+        }else{
+            submit.disabled = false
+            error.innerText = ""
+            error.setAttribute('display', "none")
+        }
+    })
+
+    pw.addEventListener("change", () => {
+        if(cpw && pw.value !== cpw.value){
+            submit.disabled = true
+            error.innerText = "Passwords do not match"
+        }else{
+            submit.disabled = false
+            error.innerText = ""
+            error.setAttribute('display', "none")
+        }
+    })
+
+</script>
+</html>
