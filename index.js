@@ -2,10 +2,15 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
+const mongoose = require("mongoose")
 const { openRouter } = require("./routes/openRoutes");
+const { privateRouter } = require("./routes/privateRoutes");
+const { isAuthenticated } = require("./middleware/authHelper");
+const { validateEntry } = require("./middleware/validation");
+const { passwordRouter } = require("./routes/passwordRoutes");
 
+//read environment variables from .env file
 dotenv.config();
-// const __dirname = path.resolve(path.dirname(''));
 
 //instantiating express
 const app = express();
@@ -25,7 +30,12 @@ app.get("/", (req, res) => {
 })
 
 //Routes
-app.use(openRouter)
+app.use(validateEntry, openRouter);
+app.use(isAuthenticated, privateRouter);
+app.use(isAuthenticated, passwordRouter);
+
+//connecting to MongoDB 
+mongoose.connect(process.env.DB, { autoIndex: false }, () => console.log("Spun up the database"))
 
 //Running the server
 const PORT = process.env.PORT || 5001;

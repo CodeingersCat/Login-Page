@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs", {title: "Admin"})  %>
+<body>
+    <div class="container-main">
+        <h1>Welcome, Admin</h1>
+        <form action="logout" method="get"><button>Log Out</button></a></form>
+        <form action="changePassword" method="get"><button>Change Password</button></a></form>
+        <%- include("../partials/footer.ejs")  %>
+    </div>
+</body>
+</html>
