@@ -13,7 +13,7 @@ const loginRoute = openRouter
     //Serves the login/sign up pages
     .get((req, res) => {
         if(req.headers.cookie && isValidToken(req.headers.cookie.split('=')[1])) 
-            res.status(200).render("admin")
+            res.status(200).redirect("admin")
         else{
             res
             .render("gatekeep", {

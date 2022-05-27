@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 //Routes
 app.use(validateEntry, openRouter);
 app.use(isAuthenticated, privateRouter);
-app.use(isAuthenticated, passwordRouter);
+app.use(isAuthenticated, validateEntry, passwordRouter);
 
 //connecting to MongoDB 
 mongoose.connect(process.env.DB, { autoIndex: false }, () => console.log("Spun up the database"))

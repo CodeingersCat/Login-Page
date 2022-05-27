@@ -11,6 +11,9 @@
         <% if(title === "Sign Up") { %>
             <%- include("../partials/signup.ejs")  %>
         <% } %>
+        <% if(title === "Reset Password") { %>
+            <%- include("../partials/passwordReset.ejs")  %>
+        <% } %>
         <%- include("../partials/footer.ejs")  %>
     </div>
 </body>
@@ -19,10 +22,11 @@
     var cpw = document.getElementById('confirm-password')
     var submit = document.getElementById('submit')
     var error = document.getElementById('error-msg')
-    var username = document.getElementById('username')
-
-    username.required = true
-
+    if(document.title !== "Otto-Bots | Reset Password"){
+        var username = document.getElementById('username')
+        username.required = true
+    }
+        
     cpw && cpw.addEventListener("change", () => {
         if(pw.value !== cpw.value){
             submit.disabled = true
