@@ -14,40 +14,10 @@
         <% if(title === "Reset Password") { %>
             <%- include("../partials/passwordReset.ejs")  %>
         <% } %>
+        <% if(title === "Verify OTP") { %>
+            <%- include("../partials/emailOtp.ejs")  %>
+        <% } %>
         <%- include("../partials/footer.ejs")  %>
     </div>
 </body>
-<script>
-    var pw = document.getElementById('password')
-    var cpw = document.getElementById('confirm-password')
-    var submit = document.getElementById('submit')
-    var error = document.getElementById('error-msg')
-    if(document.title !== "Otto-Bots | Reset Password"){
-        var username = document.getElementById('username')
-        username.required = true
-    }
-        
-    cpw && cpw.addEventListener("change", () => {
-        if(pw.value !== cpw.value){
-            submit.disabled = true
-            error.innerText = "Passwords do not match"
-        }else{
-            submit.disabled = false
-            error.innerText = ""
-            error.setAttribute('display', "none")
-        }
-    })
-
-    pw.addEventListener("change", () => {
-        if(cpw && pw.value !== cpw.value){
-            submit.disabled = true
-            error.innerText = "Passwords do not match"
-        }else{
-            submit.disabled = false
-            error.innerText = ""
-            error.setAttribute('display', "none")
-        }
-    })
-
-</script>
 </html>

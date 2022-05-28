@@ -22,6 +22,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, '/views')));
 
 //to accept form-data
+app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 //Home page
@@ -30,9 +31,9 @@ app.get("/", (req, res) => {
 })
 
 //Routes
-app.use(validateEntry, openRouter);
-app.use(isAuthenticated, privateRouter);
-app.use(isAuthenticated, validateEntry, passwordRouter);
+app.use("/",validateEntry, openRouter);
+app.use("/admin", isAuthenticated, privateRouter);
+app.use("/pw", validateEntry, passwordRouter);
 
 //connecting to MongoDB 
 mongoose.connect(process.env.DB, { autoIndex: false }, () => console.log("Spun up the database"))

@@ -6,7 +6,7 @@ const privateRouter = express.Router();
 
 const adminRoute = privateRouter
     //Admin page route
-    .route("/admin")
+    .route("/")
     //GET Request handler
     //Serves the private page
     .get((req, res) => {

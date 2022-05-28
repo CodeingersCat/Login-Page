@@ -1,0 +1,74 @@
+<p class="signup">Forgot Password?</p>
+<form action="forgotpw" class="otp-form" id="otp-form" method="post">
+    <label for="email">Enter email</label>
+    <%- `<input type="email" id="email" name="email_field" placeholder="Enter email">` %>
+    <button id="reqOtp">Get OTP</button>
+    <label for="OTP">Enter OTP</label>
+    <input type="text" id="otp" name="otp_field" placeholder="Enter OTP" required>
+    <p id="error-msg"><%= errors  %> </p>
+    <input type="submit" id="submit" value="Submit">
+</form>
+
+<script>
+    var otp = document.getElementById("otp");
+    var getOtp = document.getElementById("reqOtp");
+    var email = document.getElementById("email");
+    var submit = document.getElementById("submit");
+    var error = document.getElementById("error-msg");
+    var form = document.getElementById("otp-form");
+    
+    email.required = true;
+    otp.disabled = true;
+    submit.disabled = true;
+    email.addEventListener("change", () => {
+        if(email.value.length === 0) error.innerText = "Email is required!"
+        else error.innerText = ""
+    })
+
+    var clock;
+
+    function stopTimer(){
+        clearInterval(clock);
+    }
+
+    function otpTimer(data){
+        var secs = 290;
+        
+        clock = setInterval(() => {
+            secs--;
+            error.innerText = data+" The OTP expires in "+secs+" seconds.";
+            if(secs <= 0){
+                error.innerText = "The OTP has expired."
+                stopTimer()
+            } 
+        }, 1000)
+    }
+
+    getOtp.addEventListener("click", (e) => {
+        e.preventDefault()
+        if(email.value.length === 0) error.innerText = "Email is required!"
+        else{
+            //var formBody = new FormData();
+            //formBody.append("email_field", email.value);
+            //console.log(formBody);
+            fetch("http://localhost:5001/getOtp", {
+                method: "POST",
+                body: JSON.stringify({"email_field": email.value}),
+                headers : {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) error.innerText = data.error;
+                else {
+                    error.innerText = data.message;
+                    otp.disabled = false;
+                    submit.disabled = false;
+                    otpTimer(data.message);
+                }                
+            })
+        }
+    })
+    
+</script>

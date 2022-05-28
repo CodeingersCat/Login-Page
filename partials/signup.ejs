@@ -1,11 +1,64 @@
 <p class="signup">SignUp</p>
 <form action="signup" class="sign-up" method="post">
-    <label for="username">Enter email</label>
-    <%- `<input type="email" id="username" name="email_field" placeholder="Enter Username" value=${email}>` %>
-    <label for="password">Enter password</label>
-    <input type="password" id="password" name="password_field" placeholder="Enter password" required minlength="8" pattern="(^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$)" title="Must be alphanumeric">
-    <label for="confirm-password">Confirm password</label>
-    <input type="password" id="confirm-password" name="repassword_field" placeholder="Confirm password" required> 
-    <p id="error-msg"><%= errors  %> </p>
-    <input type="submit" id="submit" value="Sign Up">
+  <label for="email">Enter email</label>
+  <%- `<input
+    type="email"
+    id="email"
+    name="email_field"
+    placeholder="Enter email"
+    value="${email}"
+  />` %>
+  <label for="password">Enter password</label>
+  <input
+    type="password"
+    id="password"
+    name="password_field"
+    placeholder="Enter password"
+    required
+    minlength="8"
+    pattern="(^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$)"
+    title="Must be alphanumeric"
+  />
+  <label for="confirm-password">Confirm password</label>
+  <input
+    type="password"
+    id="confirm-password"
+    name="repassword_field"
+    placeholder="Confirm password"
+    required
+  />
+  <p id="error-msg"><%= errors %></p>
+  <input type="submit" id="submit" value="Sign Up" />
 </form>
+<script>
+  var pw = document.getElementById("password");
+  var cpw = document.getElementById("confirm-password");
+  var submit = document.getElementById("submit");
+  var error = document.getElementById("error-msg");
+  var email = document.getElementById("email");
+
+  email.required = true;
+
+  cpw &&
+    cpw.addEventListener("change", () => {
+      if (pw.value !== cpw.value) {
+        submit.disabled = true;
+        error.innerText = "Passwords do not match";
+      } else {
+        submit.disabled = false;
+        error.innerText = "";
+        error.setAttribute("display", "none");
+      }
+    });
+
+  pw.addEventListener("change", () => {
+    if (cpw && pw.value !== cpw.value) {
+      submit.disabled = true;
+      error.innerText = "Passwords do not match";
+    } else {
+      submit.disabled = false;
+      error.innerText = "";
+      error.setAttribute("display", "none");
+    }
+  });
+</script>
