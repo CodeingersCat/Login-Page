@@ -20,7 +20,7 @@
 <script>
     var mail = document.querySelector('u');
     if(mail.innerText.length === 0){
-        fetch("http://localhost:5001/admin/user")
+        fetch("https://loginfortheottobots.herokuapp.com/admin/user")
         .then(res => res.json())
         .then(data => {
             console.log(data)
