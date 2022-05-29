@@ -16,6 +16,7 @@ const indexRoute = openRouter
     //GET Request handler
     .get(async (req, res) => {
         //Normal access token
+        console.log(req.cookies)
         if(req.cookies.token){
             const token = req.cookies.token
             const valid = isValidToken(token)
