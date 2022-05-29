@@ -175,8 +175,10 @@ const forgotPassword = openRouter
                 })
             else{
                 //Authenticating user sent OTP
-                const created = new Date(dbOtp.createdAt).getTime();
-                const now = new Date().getTime()
+                var created = new Date(dbOtp.createdAt);
+                created = created.getTime()
+                var now = new Date()
+                now = now.getTime()
                 console.log(now - created)
                 //Checking consistency and validity
                 if((dbOtp.otp) === req.body.otp_field && ((now - created) < 300000)) {
@@ -223,8 +225,11 @@ const otpService = openRouter
         const otpExist = await Otp.findOne({email: req.body.email_field});
         var difference;
         if(otpExist){
-            const created = new Date(otpExist.createdAt).getTime()
-            difference = new Date().getTime() - created;
+            var created = new Date(otpExist.createdAt);
+            created = created.getTime();
+            var now = new Date();
+            now = now.getTime()
+            difference = now - created;
         }
         
         console.log(difference && otpExist)
