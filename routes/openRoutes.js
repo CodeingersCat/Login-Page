@@ -176,12 +176,14 @@ const forgotPassword = openRouter
             else{
                 //Authenticating user sent OTP
                 var created = new Date(dbOtp.createdAt);
-                created = created.getTime()
-                var now = new Date()
-                now = now.getTime()
-                console.log(now - created)
+                created = created.getTime();
+                var now = new Date();
+                now = now.getTime();
+                console.log(now);
+                console.log(created);
+                console.log(now - created);
                 //Checking consistency and validity
-                if((dbOtp.otp) === req.body.otp_field && ((now - created) < 300000)) {
+                if((dbOtp.otp) === req.body.otp_field && ((now - created) < 180000)) {
                     //console.log("asdasd")
                     res.redirect("pw/resetpwotp/"+dbOtp.otp)
                 }else{
@@ -242,14 +244,14 @@ const otpService = openRouter
                 password: "",
                 errors: "Email does not exist"
               });
-            }else if(otpExist && difference < 300000){
+            }else if(otpExist && difference < 180000){
                 res
                 .status(401)
                 .json({
-                    error: "You have an unexpired OTP. Please try after "+Math.ceil((300000-difference)/1000)+" seconds."
+                    error: "You have an unexpired OTP. Please try after "+Math.ceil((180000-difference)/1000)+5+" seconds."
                 });
             }else{
-                if(otpExist && difference > 300000){
+                if(otpExist && difference > 180000){
                     const j = await Otp.findOneAndDelete({email: req.body.email_field})
                 }
                 //Calculating random OTP
