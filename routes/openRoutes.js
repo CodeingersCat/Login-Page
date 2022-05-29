@@ -1,9 +1,10 @@
-const express = require("express")
-const bcrypt = require("bcryptjs")
-const mailer = require("nodemailer")
-const { tokenise, isValidToken } = require("../utils/token")
-const User = require("../models/User")
-const Otp = require("../models/Otp")
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const mailer = require("nodemailer");
+const { tokenise, isValidToken } = require("../utils/token");
+const User = require("../models/User");
+const Otp = require("../models/Otp");
+const {OAuth2Client} = require('google-auth-library');
 
 const openRouter = express.Router()
 
@@ -13,11 +14,23 @@ const openRouter = express.Router()
 const indexRoute = openRouter
     .route("/")
     //GET Request handler
-    .get((req, res) => {
-        if(req.headers.cookie){
-            const token = req.headers.cookie.split('=')[1]
+    .get(async (req, res) => {
+        //Normal access token
+        if(req.cookies.token){
+            const token = req.cookies.token
             const valid = isValidToken(token)
             if(valid) {
+                res.redirect("/admin");
+                return;
+            }
+        //Google oauth access token
+        }else if(req.cookies.oauth_token){
+            const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
+            const ticket = await client.verifyIdToken({
+                idToken: req.cookies.oauth_token,
+                audience: process.env.OAUTH_CLIENT_ID
+            });
+            if(ticket){
                 res.redirect("/admin");
                 return;
             }
@@ -31,10 +44,25 @@ const loginRoute = openRouter
     .route("/login")
     //GET Request handler
     //Serves the login/sign up pages
-    .get((req, res) => {
-        if(req.headers.cookie && isValidToken(req.headers.cookie.split('=')[1])) 
-            res.status(200).redirect("admin")
-        else{
+    .get(async (req, res) => {
+        if(req.cookies.token){
+            const token = req.cookies.token
+            const valid = isValidToken(token)
+            if(valid) {
+                res.redirect("/admin");
+                return;
+            }
+        }else if(req.cookies.oauth_token){
+            const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
+            const ticket = await client.verifyIdToken({
+                idToken: req.cookies.oauth_token,
+                audience: process.env.OAUTH_CLIENT_ID
+            });
+            if(ticket){
+                res.redirect("/admin");
+                return;
+            }
+        }else{
             res
             .render("gatekeep", {
             title: "Log In",

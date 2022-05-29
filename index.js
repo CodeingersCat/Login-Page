@@ -8,6 +8,8 @@ const { privateRouter } = require("./routes/privateRoutes");
 const { isAuthenticated } = require("./middleware/authHelper");
 const { validateEntry } = require("./middleware/validation");
 const { passwordRouter } = require("./routes/passwordRoutes");
+const { oauthRouter } = require("./routes/oauthRoutes");
+const cookieParser = require("cookie-parser");
 
 //read environment variables from .env file
 dotenv.config();
@@ -17,7 +19,7 @@ const app = express();
 
 //setting ejs as the view engine
 app.set('view engine', 'ejs');
-
+app.use(cookieParser());
 //setting the views folder to serve  html
 //app.use(express.static(path.join(__dirname, '/views')));
 app.use(express.static('views'));
@@ -30,6 +32,7 @@ app.use(express.urlencoded({extended: true}))
 app.use("/",validateEntry, openRouter);
 app.use("/admin", isAuthenticated, privateRouter);
 app.use("/pw", validateEntry, passwordRouter);
+app.use("/oauth", oauthRouter);
 
 //connecting to MongoDB 
 mongoose.connect(process.env.DB, { autoIndex: false }, () => console.log("Spun up the database"))

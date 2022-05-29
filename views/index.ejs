@@ -9,9 +9,34 @@
                 <a href="/login" class="login"><button class="index-login">Log In</button></a>
                 <a href="/signup" class="signup"><button class="index-signup">Sign Up</button></a>
             </div>
+            <div class="google">
+                <div class="or">
+                    <div class="separate"></div>
+                    <span class="ortext">or</span>
+                    <div class="separate"></div>
+                </div>
+                <div class="gsign">
+                    <div id="g_id_onload"
+                        data-client_id="416195940669-r57pm8l6u6virei4aaqrju4ckb3m67l4.apps.googleusercontent.com"
+                        data-login_uri="http://localhost:5001/oauth/check"
+                        data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-size="large"
+                        data-theme="outline"
+                        data-text="sign_in_with"
+                        data-shape="rectangular"
+                        data-logo_alignment="left">
+                    </div>
+                </div>
+                
+            </div>
+            
         </div>
         <%- include("../partials/footer.ejs")  %>
     </div>
 </body>
 <%- include("../partials/noload.ejs")  %>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </html>

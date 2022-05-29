@@ -5,9 +5,12 @@
     <div class="container-admin">
             <div class="admin-card">
                 <div class="admin-logo"><h1 class="logo" style="color: white;">Welcome, Admin</h1></div>
+                <div class="admin-mail"><u><%= email %></u></div>
                 <div class="admin-button-array">
                     <a href="admin/logout" class="logout"><button class="admin-logout">Log Out</button></a></form>
-                    <a href="pw/resetpw" class="resetpw" ><button class="admin-resetpw">Change Password</button></a></form>
+                    <% if(type !== "oauth")  { %> 
+                        <a href="pw/resetpw" class="resetpw" ><button class="admin-resetpw">Change Password</button></a></form>
+                    <% }  %>                     
                 </div>
             <%- include("../partials/footer.ejs")  %>
         </div>

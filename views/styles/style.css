@@ -145,6 +145,13 @@ input{
   justify-content: center;
 }
 
+.admin-mail{
+  color: rgb(221, 210, 210);
+  text-align: center;
+  font-size: 1rem;
+  padding-bottom: 30px;
+}
+
 .index-card, .admin-card{
   display: flex;
   flex-direction: column;
@@ -153,8 +160,12 @@ input{
   padding: 20px;
 }
 
-.index-logo, .admin-logo {
+.index-logo {
   padding-bottom: 30px;
+}
+
+.admin-logo{
+  padding-bottom: 10px;
 }
 
 .index-button-array, .admin-button-array {
@@ -306,6 +317,34 @@ input{
   color: #fff;
   text-align: center;
   margin-bottom: 5%;
+}
+
+.google{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.or{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ortext{
+  font-size: 1rem;
+  color: white;
+}
+
+.separate{
+  height: 0.5px;
+  width: 40%;
+  border: 1px solid rgba(255, 255, 255, 0.319);
 }
 
 .nav-container{

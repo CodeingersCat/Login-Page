@@ -11,7 +11,7 @@ const adminRoute = privateRouter
     //Serves the private page
     .get((req, res) => {
         //Checks for valid log in
-        if(req.valid) res.render("admin");
+        if(req.valid) res.render("admin", {email: req.valid.data, type: (req.cookies.oauth_token ? "oauth" : "")});
         else 
         res
         .status(401)
@@ -29,8 +29,9 @@ const logoutRoute = privateRouter
     //GET Request handler
     //clears auth token and redirects to index page 
     .get((req, res) => {
-        if(req.headers.cookie) 
+        if(req.cookies.token || req.cookies.oauth_token) 
             res
+            .clearCookie('oauth_token', {sameSite: true, httpOnly: true})
             .clearCookie('token', {sameSite: true, httpOnly: true})
             .redirect("/")
     })
