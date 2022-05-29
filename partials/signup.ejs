@@ -1,5 +1,4 @@
-<p class="signup">SignUp</p>
-<form action="signup" class="sign-up" method="post">
+<form action="signup" class="form" method="post">
   <label for="email">Enter email</label>
   <%- `<input
     type="email"
@@ -27,8 +26,8 @@
     placeholder="Confirm password"
     required
   />
-  <p id="error-msg"><%= errors %></p>
   <input type="submit" id="submit" value="Sign Up" />
+  <p id="error-msg"><%= errors  %></p>
 </form>
 <script>
   var pw = document.getElementById("password");

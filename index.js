@@ -18,17 +18,13 @@ const app = express();
 //setting ejs as the view engine
 app.set('view engine', 'ejs');
 
-//setting the views folder to serve static html
-app.use(express.static(path.join(__dirname, '/views')));
+//setting the views folder to serve  html
+//app.use(express.static(path.join(__dirname, '/views')));
+app.use(express.static('views'));
 
 //to accept form-data
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-
-//Home page
-app.get("/", (req, res) => {
-    res.render('index', {title: "Home"})
-})
 
 //Routes
 app.use("/",validateEntry, openRouter);

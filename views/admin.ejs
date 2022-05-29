@@ -2,11 +2,16 @@
 <html lang="en">
 <%- include("../partials/head.ejs", {title: "Admin"})  %>
 <body>
-    <div class="container-main">
-        <h1>Welcome, Admin</h1>
-        <form action="admin/logout" method="get"><button>Log Out</button></a></form>
-        <form action="pw/resetpw" method="get"><button>Change Password</button></a></form>
-        <%- include("../partials/footer.ejs")  %>
+    <div class="container-admin">
+            <div class="admin-card">
+                <div class="admin-logo"><h1 class="logo" style="color: white;">Welcome, Admin</h1></div>
+                <div class="admin-button-array">
+                    <a href="admin/logout" class="logout"><button class="admin-logout">Log Out</button></a></form>
+                    <a href="pw/resetpw" class="resetpw" ><button class="admin-resetpw">Change Password</button></a></form>
+                </div>
+            <%- include("../partials/footer.ejs")  %>
+        </div>
     </div>
 </body>
+<%- include("../partials/noload.ejs")  %>
 </html>

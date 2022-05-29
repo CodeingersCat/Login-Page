@@ -12,9 +12,9 @@ const Otpschema = new Schema({
         required: true
     },
 
-    "expireAt": { 
+    createdAt: { 
         type: Date,
-        default: new Date() 
+        default: new Date()
     }
 
 }, 

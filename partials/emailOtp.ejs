@@ -1,13 +1,14 @@
-<p class="signup">Forgot Password?</p>
-<form action="forgotpw" class="otp-form" id="otp-form" method="post">
-    <label for="email">Enter email</label>
-    <%- `<input type="email" id="email" name="email_field" placeholder="Enter email">` %>
-    <button id="reqOtp">Get OTP</button>
-    <label for="OTP">Enter OTP</label>
+<form action="forgotpw" class="form" id="form" method="post">
+    <label for="email">Email</label>
+    <div class="otp-section">
+        <%- `<input type="email" id="email" name="email_field" placeholder="Enter email">` %>
+        <button id="reqOtp">Get OTP</button>
+    </div>
+    <label for="OTP">One Time Password</label>
     <input type="text" id="otp" name="otp_field" placeholder="Enter OTP" required>
-    <p id="error-msg"><%= errors  %> </p>
     <input type="submit" id="submit" value="Submit">
 </form>
+<p id="error-msg"><%= errors  %></p>
 
 <script>
     var otp = document.getElementById("otp");
@@ -15,7 +16,7 @@
     var email = document.getElementById("email");
     var submit = document.getElementById("submit");
     var error = document.getElementById("error-msg");
-    var form = document.getElementById("otp-form");
+    var form = document.getElementById("form");
     
     email.required = true;
     otp.disabled = true;
@@ -46,11 +47,9 @@
 
     getOtp.addEventListener("click", (e) => {
         e.preventDefault()
+        error.innerText = "Sending OTP to your email..."
         if(email.value.length === 0) error.innerText = "Email is required!"
         else{
-            //var formBody = new FormData();
-            //formBody.append("email_field", email.value);
-            //console.log(formBody);
             fetch("http://localhost:5001/getOtp", {
                 method: "POST",
                 body: JSON.stringify({"email_field": email.value}),
@@ -68,6 +67,7 @@
                     otpTimer(data.message);
                 }                
             })
+            .catch(err => error.innerText = err)
         }
     })
     

@@ -9,6 +9,23 @@ const openRouter = express.Router()
 
 //____PUBLIC ROUTES_____
 
+//INDEX Route
+const indexRoute = openRouter
+    .route("/")
+    //GET Request handler
+    .get((req, res) => {
+        if(req.headers.cookie){
+            const token = req.headers.cookie.split('=')[1]
+            const valid = isValidToken(token)
+            if(valid) {
+                res.redirect("/admin");
+                return;
+            }
+        }
+        res.render('index', {title: "Home"})
+    })
+
+
 //LOGIN route
 const loginRoute = openRouter
     .route("/login")
@@ -157,19 +174,37 @@ const forgotPassword = openRouter
                     errors: "Invalid OTP"
                 })
             else{
-                //Authenticating user sent OTP 
-                if(dbOtp.otp === req.body.otp_field) {
+                //Authenticating user sent OTP
+                const created = new Date(dbOtp.createdAt).getTime();
+                const now = new Date().getTime()
+                console.log(now - created)
+                //Checking consistency and validity
+                if((dbOtp.otp) === req.body.otp_field && ((now - created) < 300000)) {
                     //console.log("asdasd")
                     res.redirect("pw/resetpwotp/"+dbOtp.otp)
                 }else{
-                    res
-                    .status(401)
-                    .render("gatekeep", {
-                        title: "Verify OTP",
-                        email: "",
-                        password: "",
-                        errors: "Invalid OTP"
-                    });
+                    Otp.findOneAndDelete({email: req.body.email_field}, (err, data) => {
+                        if(err) {
+                            res
+                            .status(401)
+                            .render("gatekeep", {
+                                title: "Verify OTP",
+                                email: "",
+                                password: "",
+                                errors: "Error in server"
+                            });
+                        }else{
+                            res
+                            .status(401)
+                            .render("gatekeep", {
+                                title: "Verify OTP",
+                                email: "",
+                                password: "",
+                                errors: "Invalid OTP"
+                            });
+                        }
+                    })
+                    
                 }
             }
 
@@ -183,9 +218,16 @@ const otpService = openRouter
     //Processes forgot password requests
     .post(async (req, res) => {
         //Checks validity of user
-        const dbUser = await User.findOne({email: req.body.email_field})
+        const dbUser = await User.findOne({email: req.body.email_field});
         //Checks if an OTP already exists for the user
-        const otpExist = await Otp.findOne({email: req.body.email_field})
+        const otpExist = await Otp.findOne({email: req.body.email_field});
+        var difference;
+        if(otpExist){
+            const created = new Date(otpExist.createdAt).getTime()
+            difference = new Date().getTime() - created;
+        }
+        
+        console.log(difference && otpExist)
             if(!dbUser){
               res
               .status(401)
@@ -195,16 +237,16 @@ const otpService = openRouter
                 password: "",
                 errors: "Email does not exist"
               });
-            }else if(otpExist){
+            }else if(otpExist && difference < 300000){
                 res
                 .status(401)
-                .render("gatekeep", {
-                    title: "Verify OTP",
-                    email: "",
-                    password: "",
-                    errors: "You have an unexpired OTP. Please try after some time."
-              });
+                .json({
+                    error: "You have an unexpired OTP. Please try after "+Math.ceil((300000-difference)/1000)+" seconds."
+                });
             }else{
+                if(otpExist && difference > 300000){
+                    const j = await Otp.findOneAndDelete({email: req.body.email_field})
+                }
                 //Calculating random OTP
                 const otpPayload = Math.ceil(Math.random()*9999);
                 
@@ -238,10 +280,13 @@ const otpService = openRouter
                     else {
                         //Setting new OTP in database
                         const newOtp = await Otp.create({email: req.body.email_field, otp: otpPayload})    
-                        if(newOtp)
-                        res
-                        .status(201)
-                        .json({message: "OTP Sent. Please check your spam and promotions folder if you can't find it in your inbox."});
+                        if(newOtp){
+                            console.log(newOtp)
+                            res
+                            .status(201)
+                            .json({message: "OTP Sent. Please check your spam and promotions folder if you can't    find it in your inbox."});
+                        }
+                        
                         else res.status(500).json({error: "Error in connection"});
                     }
                 })
