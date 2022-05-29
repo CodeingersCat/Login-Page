@@ -15,4 +15,8 @@ const isValidToken = (token) => {
     }
 }
 
-module.exports = {tokenise, isValidToken}
+const decode = (token) => {
+    return jwt.decode(token)
+}
+
+module.exports = {tokenise, isValidToken, decode}

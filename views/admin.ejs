@@ -17,4 +17,15 @@
     </div>
 </body>
 <%- include("../partials/noload.ejs")  %>
+<script>
+    var mail = document.querySelector('u');
+    if(mail.innerText.length === 0){
+        fetch("http://localhost:5001/admin/user")
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            mail.innerText = data.email
+        });
+    }
+</script>
 </html>

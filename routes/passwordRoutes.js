@@ -44,7 +44,7 @@ const changePasswordRoute = passwordRouter
                     //sending updated auth token to client
                     res
                     .status(201)
-                    .cookie('token', tokenise(data.email), {sameSite: true, httpOnly: true, maxAge: 60*60*24*5000})
+                    .cookie('token', tokenise(req.valid.data), {sameSite: true, httpOnly: true, maxAge: 60*60*24*5000})
                     .redirect("/admin")
                 }
             })    

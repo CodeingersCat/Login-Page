@@ -361,8 +361,22 @@ input{
 .footer{
   position: fixed;
   width: 100%;
-  bottom: 0;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.footer-container{
+  font-size: 1rem;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.319);
+}
+
+.github{
+  color: rgba(255, 255, 255, 0.319);;
+}
+
 
 /* .card {
     backdrop-filter: blur(16px) saturate(180%);

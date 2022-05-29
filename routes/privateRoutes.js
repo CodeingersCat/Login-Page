@@ -4,6 +4,16 @@ const privateRouter = express.Router();
 
 //PRIVATE ROUTES
 
+const getEmail = privateRouter
+    .route("/user")
+    .get((req, res) => {
+        if(req.valid) res.status(200).json({email: req.valid})
+        else 
+        res
+        .status(401)
+        .json({error: "Unauthorised"});
+    })
+
 const adminRoute = privateRouter
     //Admin page route
     .route("/")
