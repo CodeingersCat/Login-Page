@@ -10,19 +10,8 @@ const Otpschema = new Schema({
     otp:{
         type: String,
         required: true
-    },
-
-    createdAt: { 
-        type: Date,
-        default: new Date()
     }
-
-}, 
-
-{
-    
 },
-
 {timestamps: true})
 
 const Otp = model('otp', Otpschema)
